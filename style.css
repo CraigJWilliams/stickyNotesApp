@@ -1,0 +1,284 @@
+:root {
+    --pinkNote: #ff7eb9;
+    --blueNote: #7afcff;
+    --yellowNote: #feff9c;
+    --white: #e5e6e9;
+    --black: #485d75;
+    --delete: #f63b0d;
+}
+
+/* reset */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box
+}
+
+body,
+p,
+a,
+h1,
+h2 {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+/* main styles */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--black);
+    color: var(--white);
+    overflow-x: hidden;
+    font-size: 16px;
+}
+
+body,
+.navbar,
+textarea {
+    font-family: 'Manrope', Arial, Helvetica, sans-serif;
+}
+
+
+h1,
+h2 {
+    color: var(--white);
+    font-weight: normal;
+    line-height: 1.4em;
+}
+
+p,
+a {
+    line-height: 1.4em;
+    font-size: 1em;
+}
+
+h1 {
+    font-size: 1.2em;
+}
+
+h2 {
+    font-size: 1.6em;
+}
+
+p,
+.material-icons {
+    font-size: 1em;
+}
+
+/* mobile styles */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.5em;
+    padding: 1.5em;
+    align-items: center;
+}
+
+.navbar {
+    padding: 0.75em;
+    background-color: var(--primary);
+}
+
+.navbar h1 {
+    margin: 0;
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.sticky-notes-container {
+    width: 100%;
+    padding: 2em 1em;
+    margin: auto;
+}
+
+.add-button {
+    background-color: #2a343f;
+    border-radius: 8px;
+    transition: all ease-in-out 0.2s;
+}
+
+.add-button:hover {
+    background-color: #11851c;
+    box-shadow: none;
+    transform: scale(1.1);
+}
+
+.add-button,
+.sticky-note {
+    width: 100%;
+    height: 100%;
+    grid-column: span 6;
+    grid-row: span 10;
+    padding: 0.5em;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    box-shadow: 1px 15px 15px -3px rgba(0, 0, 0, 0.2);
+}
+
+.add-button .material-icons {
+    font-size: 4em;
+}
+
+.sticky-note {
+    background-color: #7afcff;
+    position: relative;
+}
+
+.sticky-note:nth-of-type(3n) {
+    background-color: var(--yellowNote);
+}
+
+.sticky-note:nth-of-type(3n+1) {
+    background-color: var(--blueNote);
+}
+
+.sticky-note:nth-of-type(3n+2) {
+    background-color: var(--pinkNote);
+}
+
+.user-input {
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    border: 1px solid transparent;
+    overflow-y: scroll;
+    resize: none;
+    font-size: 0.8em;
+}
+
+.user-input:focus {
+    outline: none;
+    border: 2px solid var(--black);
+}
+
+.user-input::placeholder {
+    color: var(--black)
+}
+
+.delete-btn {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #a93518;
+    transition: all 0.2s ease-in-out;
+    color: var(--white);
+    border: none;
+    padding: 0.2em;
+    font-weight: 700;
+}
+
+.delete-btn:hover {
+    background-color: var(--delete);
+}
+
+.delete-modal-container {
+    position: fixed;
+    display: flex;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+    transform: scale(0);
+}
+
+.delete-modal {
+    background-color: var(--black);
+    padding: 1em;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    border-radius: 8px;
+
+}
+
+.delete-modal-buttons-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 1.5em 0 1em 0;
+}
+
+.back-btn,
+.modal-delete-btn {
+    padding: 0.5em 1em;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0 1em;
+    align-items: center;
+    transition: all 0.2s ease-in-out;
+}
+
+.modal-delete-btn {
+    background-color: var(--delete);
+}
+
+.back-btn:hover {
+    background-color: #2e3a4a;
+    transform: scale(1.1);
+}
+
+.modal-delete-btn:hover {
+    background-color: var(--delete);
+    transform: scale(1.1);
+}
+
+
+
+/* ========== media queries ========== */
+
+/* small tablet styles */
+@media screen and (min-width: 620px) {
+    body {
+        font-size: 20px;
+    }
+
+    .add-button,
+    .sticky-note {
+        grid-column: span 4;
+        grid-row: span 8;
+    }
+}
+
+/* large tablet & laptop styles */
+@media screen and (min-width: 750px) {
+
+    .add-button,
+    .sticky-note {
+        grid-column: span 3;
+        grid-row: span 8;
+    }
+}
+
+
+@media screen and (min-width: 1200px) {
+    body {
+        font-size: 24px;
+    }
+
+    .add-button,
+    .sticky-note {
+        grid-column: span 2;
+        grid-row: span 8;
+    }
+}
