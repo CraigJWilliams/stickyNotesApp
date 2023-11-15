@@ -57,7 +57,6 @@ const saveNotes = (e) => {
 
 // delete note when button is pressed
 const deleteNote = (e) => {
-    console.log('deleted')
     // show delete modal
     const modal = document.querySelector('.delete-modal-container')
     modal.style.transform = 'scale(1)'
@@ -71,13 +70,10 @@ const deleteNote = (e) => {
             modal.removeEventListener('click', modalListener)
             // if delete button is pressed, delete the note and remove from container
         } else if (e.target && e.target.classList.contains('modal-delete-btn')) {
-            console.log(savedNotes)
             savedNotes = savedNotes.filter(note => note.id !== noteToDelete)
-            console.log(savedNotes)
             const noteToDeleteEl = document.querySelector(`[data-id="${noteToDelete}"]`)
             if (noteToDeleteEl) {
                 localStorage.setItem('stickyNotes', JSON.stringify(savedNotes))
-                console.log('removed')
                 container.removeChild(noteToDeleteEl)
             }
             // hide modal and remove event listener
