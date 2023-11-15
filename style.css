@@ -177,7 +177,7 @@ p,
     transition: all 0.2s ease-in-out;
     color: var(--white);
     border: none;
-    padding: 0.2em;
+    padding: 0.5em;
     font-weight: 700;
 }
 
