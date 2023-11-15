@@ -1,15 +1,17 @@
-// check local storage to see if there are any notes, if there are, run generatenotes function
-// add new note when button is pressed, give it an id
-// once new note text area is entered, save it to local storage
-// when note is updated, update local storage
-// when delete button is pressed, delete the note with thay particular id
-
 const container = document.querySelector('.sticky-notes-container')
 const addBtn = document.querySelector('.add-button')
 let savedNotes = []
-
-const createNote = (content = '') => {
-    // create new sticky note
+// get stickynotes from local storage and display if there are any
+window.addEventListener('load', () => {
+    const stickyNotes = localStorage.getItem('stickyNotes')
+    if (stickyNotes) {
+        savedNotes = JSON.parse(stickyNotes)
+        savedNotes.forEach(note => createNote(note.content, note.id))
+    }
+})
+// create a new note if button is clicked or on window load
+const createNote = (content = '', id = null) => {
+    // create new sticky note div
     const newStickyNote = document.createElement('div')
     newStickyNote.className = 'sticky-note'
     // create new textarea
@@ -27,36 +29,40 @@ const createNote = (content = '') => {
     // append whole note to container
     container.appendChild(newStickyNote)
     // give the note an id
-    const noteId = createUniqueId()
-    newStickyNote.dataset.noteId = noteId
-    // push new element to array
-    savedNotes.push({
-        content: newTextArea.value,
-        id: noteId,
-    })
+    newStickyNote.dataset.id = id
+    // if the note doesnt exist, push new element to array
+    if (id === null) {
+        // create a new id
+        id = createUniqueId()
+        newStickyNote.dataset.id = id
+        savedNotes.push({ content, id })
+        localStorage.setItem('stickyNotes', JSON.stringify(savedNotes))
+    } else {
+        newStickyNote.dataset.id = id
+    }
 }
 
 // save notes to local storage
 const saveNotes = (e) => {
     // get the id of the note that's updated
-    const changedNoteId = parseInt(e.target.parentElement.dataset.noteId)
+    const changedNoteId = parseInt(e.target.parentElement.dataset.id)
     // update the note content
     const changedNote = savedNotes.find(note => note.id == changedNoteId)
     if (changedNote) {
         changedNote.content = e.target.value
-        console.log(changedNote.content)
     }
-    console.log(savedNotes)
-
+    // save notes
+    localStorage.setItem('stickyNotes', JSON.stringify(savedNotes))
 }
 
 // delete note when button is pressed
 const deleteNote = (e) => {
+    console.log('deleted')
     // show delete modal
     const modal = document.querySelector('.delete-modal-container')
     modal.style.transform = 'scale(1)'
     // get the id of the note to delete
-    const noteToDelete = parseInt(e.target.parentElement.dataset.noteId)
+    const noteToDelete = parseInt(e.target.parentElement.dataset.id)
     modal.addEventListener('click', modalListener)
     function modalListener(e) {
         // if back button is pressed, hide modal and remove event listener
@@ -68,8 +74,10 @@ const deleteNote = (e) => {
             console.log(savedNotes)
             savedNotes = savedNotes.filter(note => note.id !== noteToDelete)
             console.log(savedNotes)
-            const noteToDeleteEl = document.querySelector(`[data-note-id="${noteToDelete}"]`)
+            const noteToDeleteEl = document.querySelector(`[data-id="${noteToDelete}"]`)
             if (noteToDeleteEl) {
+                localStorage.setItem('stickyNotes', JSON.stringify(savedNotes))
+                console.log('removed')
                 container.removeChild(noteToDeleteEl)
             }
             // hide modal and remove event listener
@@ -78,18 +86,10 @@ const deleteNote = (e) => {
         }
     }
 }
-
+// find the highest id, increment by 1 and return
 const createUniqueId = () => {
-    // Return 1 if array is empty
-    if (savedNotes.length === 0) {
-        return 1
-        // find the highest id and increment by 1
-    } else {
-        const lastNote = savedNotes.findLast(note => note.id !== undefined);
-        return lastNote.id + 1;
-    }
+    return savedNotes.reduce((highestId, note) => Math.max(highestId, note.id), 0) + 1
 }
-
 
 // create note when button is clicked
 addBtn.addEventListener('click', () => createNote())
@@ -106,6 +106,3 @@ container.addEventListener('click', (e) => {
         deleteNote(e)
     }
 })
-
-
-
