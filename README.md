@@ -4,7 +4,7 @@
 
 <h2>Live Website</h2>
 
-[https://stickynotesappcjw.netlify.app](https://stickynotesappcjw.netlify.app)
+[https://stickynotescjw.netlify.app](https://stickynotescjw.netlify.app)
 
 <h2>Project Screenshots:</h2>
 
